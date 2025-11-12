@@ -5,16 +5,16 @@ const openai = new OpenAI({
 });
 
 export interface ResumeEnhancementRequest {
-  jobDescription: string;
+  jobDescription: string
   currentResume: {
-    summary?: string;
-    skills?: string[];
+    summary?: string
+    skills?: string[]
     workExperience: {
-      position: string;
-      description: string;
-      achievements: string[];
-    }[];
-  };
+      position: string
+      description: string
+      achievements: string[]
+    }[]
+  }
 }
 
 export const enhanceResume = async ({ jobDescription, currentResume }: ResumeEnhancementRequest) => {
@@ -43,7 +43,7 @@ Response format:
       "achievements": ["achievement1", "achievement2", ...]
     }
   ]
-}`;
+}`
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',
@@ -58,18 +58,18 @@ Response format:
         },
       ],
       temperature: 0.7,
-    });
+    })
 
     if (!completion.choices[0].message?.content) {
-      throw new Error('No response from OpenAI');
+      throw new Error('No response from OpenAI')
     }
 
-    return JSON.parse(completion.choices[0].message.content);
+    return JSON.parse(completion.choices[0].message.content)
   } catch (error) {
-    console.error('Error enhancing resume:', error);
-    throw error;
+    console.error('Error enhancing resume:', error)
+    throw error
   }
-};
+}
 
 export const generateAchievements = async (jobDescription: string, position: string) => {
   try {
@@ -85,7 +85,7 @@ Please provide achievement statements that:
 2. Include specific metrics when possible
 3. Highlight relevant skills and accomplishments
 
-Format the response as a JSON array of strings.`;
+Format the response as a JSON array of strings.`
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',
